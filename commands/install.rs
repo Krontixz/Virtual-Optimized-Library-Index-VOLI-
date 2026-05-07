@@ -22,10 +22,12 @@ impl VoliInstaller {
         let bin_path = self.home_dir.join("bin");
         let lib_path = self.home_dir.join("lib");
         let cache_path = self.home_dir.join("cache");
+        let classes_path = env::current_dir().unwrap().join("classes");
 
         fs::create_dir_all(bin_path)?;
         fs::create_dir_all(lib_path)?;
         fs::create_dir_all(cache_path)?;
+        fs::create_dir_all(classes_path)?;
 
         Ok(())
     }
@@ -35,7 +37,9 @@ impl VoliInstaller {
         {
             use std::process::Command;
             Command::new("assoc").arg(".volic=VolicFile").output()?;
+            Command::new("assoc").arg(".volis=VolisStack").output()?;
             Command::new("ftype").arg("VolicFile=voli.exe %1").output()?;
+            Command::new("ftype").arg("VolisStack=voli.exe %1").output()?;
         }
         Ok(())
     }
